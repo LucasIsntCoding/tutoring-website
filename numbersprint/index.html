@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NumberSprint | Fraction, Decimal and Percentage Drill</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Zetamac-style number drill</p>
+          <h1>NumberSprint</h1>
+          <p class="hero-text">
+            Fast arithmetic rounds focused on fractions, decimals, and
+            percentages, with instant checking and an untimed mode when you
+            want to practise without a countdown.
+          </p>
+        </div>
+        <div class="hero-card">
+          <p class="hero-card-label">What this build covers</p>
+          <ul class="hero-list">
+            <li>Fraction, decimal, and percentage questions only.</li>
+            <li>Timed rounds or unlimited manual-finish practice.</li>
+            <li>Review lists for skipped or shaky problems.</li>
+          </ul>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="panel setup-panel">
+          <div class="panel-header">
+            <p class="section-kicker">Round setup</p>
+            <h2>Choose the mix</h2>
+            <p>
+              The selected answer styles determine the types of prompts you
+              will see. Leave all three on for the full mixed drill.
+            </p>
+          </div>
+
+          <form id="settings-form" class="settings-form">
+            <label class="field">
+              <span>Round length</span>
+              <select name="duration" id="duration">
+                <option value="60">60 seconds</option>
+                <option value="90" selected>90 seconds</option>
+                <option value="120">120 seconds</option>
+                <option value="180">180 seconds</option>
+                <option value="unlimited">Unlimited (manual finish)</option>
+              </select>
+            </label>
+
+            <fieldset class="field-group">
+              <legend>Answer styles</legend>
+              <label class="check">
+                <input type="checkbox" name="family" value="fraction" checked />
+                <span>Fractions</span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="family" value="decimal" checked />
+                <span>Decimals</span>
+              </label>
+              <label class="check">
+                <input type="checkbox" name="family" value="percent" checked />
+                <span>Percentages</span>
+              </label>
+            </fieldset>
+
+            <div class="support-block">
+              <p class="support-label">Current mix</p>
+              <p id="mix-summary" class="support-text">
+                Fraction, decimal, and percentage answers.
+              </p>
+            </div>
+
+            <div class="support-block">
+              <p class="support-label">Accepted formats</p>
+              <ul class="support-list">
+                <li>Fractions: fraction or whole number</li>
+                <li>Decimals: decimal number</li>
+                <li>Percentages: with or without the % sign</li>
+              </ul>
+            </div>
+
+            <div class="support-block">
+              <p class="support-label">Best score</p>
+              <p id="best-score" class="support-text">0 correct answers</p>
+            </div>
+
+            <button type="submit" class="primary-button">Start round</button>
+          </form>
+        </section>
+
+        <section class="panel game-panel">
+          <div class="status-grid">
+            <article class="stat-card">
+              <p class="stat-label">Time</p>
+              <p id="time-left" class="stat-value">--</p>
+            </article>
+            <article class="stat-card">
+              <p class="stat-label">Score</p>
+              <p id="score" class="stat-value">0</p>
+            </article>
+            <article class="stat-card">
+              <p class="stat-label">Streak</p>
+              <p id="streak" class="stat-value">0</p>
+            </article>
+            <article class="stat-card">
+              <p class="stat-label">First-try rate</p>
+              <p id="accuracy" class="stat-value">0%</p>
+            </article>
+          </div>
+
+          <section id="idle-state" class="state-card">
+            <p class="section-kicker">Ready</p>
+            <h2>Start a number round</h2>
+            <p>
+              Press Start round and solve each prompt as quickly as you can. In
+              unlimited mode, the timer is removed and you finish the round
+              yourself with the End round button.
+            </p>
+          </section>
+
+          <section id="game-state" class="state-card hidden">
+            <div class="round-meta">
+              <p id="round-label" class="section-kicker">Main round</p>
+              <span id="topic-badge" class="difficulty-badge">Fractions</span>
+            </div>
+
+            <h2>Solve the prompt</h2>
+            <p id="prompt-detail" class="prompt-detail">
+              Type the answer in the format shown below.
+            </p>
+
+            <div class="problem-board">
+              <p id="problem-text" class="problem-text">3/4 + 1/8</p>
+            </div>
+
+            <div id="hint-card" class="hint-card">
+              <p class="hint-label">Format</p>
+              <p id="hint-copy" class="hint-copy">
+                Use a fraction or whole number. Equivalent fractions count.
+              </p>
+            </div>
+
+            <form id="answer-form" class="answer-form" autocomplete="off">
+              <input
+                id="answer-input"
+                type="text"
+                inputmode="text"
+                autocapitalize="none"
+                spellcheck="false"
+                placeholder="Type the answer"
+              />
+              <div class="action-row">
+                <button type="submit" class="primary-button">Submit</button>
+                <button id="skip-word" type="button" class="ghost-button">
+                  Skip
+                </button>
+                <button id="end-round" type="button" class="secondary-button">
+                  End round
+                </button>
+              </div>
+            </form>
+
+            <p id="feedback" class="feedback" aria-live="polite">
+              Waiting for the round to start.
+            </p>
+          </section>
+
+          <section id="results-state" class="state-card hidden">
+            <p class="section-kicker">Round complete</p>
+            <h2>Results</h2>
+
+            <div class="results-grid">
+              <article class="result-card">
+                <p class="stat-label">Correct answers</p>
+                <p id="result-score" class="stat-value">0</p>
+              </article>
+              <article class="result-card">
+                <p class="stat-label">First-try rate</p>
+                <p id="result-accuracy" class="stat-value">0%</p>
+              </article>
+              <article class="result-card">
+                <p class="stat-label">Best streak</p>
+                <p id="result-streak" class="stat-value">0</p>
+              </article>
+            </div>
+
+            <p id="result-message" class="results-message">
+              Missed problems will appear here for review.
+            </p>
+
+            <div class="action-row">
+              <button id="play-again" type="button" class="primary-button">
+                Play again
+              </button>
+              <button id="practice-missed" type="button" class="secondary-button">
+                Practise missed
+              </button>
+            </div>
+
+            <div class="review-header">
+              <p class="support-label">Review list</p>
+              <p class="support-text">
+                Problems that were skipped, unfinished, or needed extra tries.
+              </p>
+            </div>
+            <div id="review-list" class="review-list"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
